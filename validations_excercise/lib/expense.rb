@@ -1,16 +1,15 @@
 class Expense
     def initialize(name:, amount:)
         validate_name(name)
-        validate_amount(amount)
+        validate_amount(validatable: :amount, value: amount)
     end
 
-    def validate_amount(amount)
-        message = if amount == nil
+    def validate_amount(validatable:, value:)
+        message = if value == nil
              'nil'
-        elsif amount < 0
+        elsif value < 0
             'less than zero'
         end
-        validatable = :amount
         raise ValidationError.new("#{validatable} cannot be #{message}".capitalize) if message
     end
 
