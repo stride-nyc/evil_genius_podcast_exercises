@@ -10,7 +10,8 @@ class Expense
         elsif amount < 0
             'less than zero'
         end
-        raise ValidationError.new("Amount cannot be #{message}") if message
+        validatable = :amount
+        raise ValidationError.new("#{validatable} cannot be #{message}".capitalize) if message
     end
 
     def validate_name(name)
@@ -21,7 +22,8 @@ class Expense
         elsif !name.match(/\S/)
             'blank'
         end
-        raise ValidationError.new("Name cannot be #{message}") if message
+        validatable = :name
+        raise ValidationError.new("#{validatable} cannot be #{message}".capitalize) if message
     end
 
    class ValidationError < StandardError    
