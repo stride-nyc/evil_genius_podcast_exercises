@@ -5,11 +5,12 @@ class Expense
     end
 
     def validate_amount(amount)
-        if amount == nil
-            raise ValidationError.new('Amount cannot be nil')
+        message = if amount == nil
+             'nil'
         elsif amount < 0
-            raise ValidationError.new('Amount cannot be less than zero')
+            'less than zero'
         end
+        raise ValidationError.new("Amount cannot be #{message}") if message
     end
 
     def validate_name(name)
