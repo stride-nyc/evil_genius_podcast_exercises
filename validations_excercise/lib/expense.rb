@@ -1,6 +1,6 @@
 class Expense
     def initialize(name:, amount:)
-        validate_name(name)
+        validate_name(validatable: :name, value: name)
         validate_amount(validatable: :amount, value: amount)
     end
 
@@ -13,15 +13,14 @@ class Expense
         raise ValidationError.new("#{validatable} cannot be #{message}".capitalize) if message
     end
 
-    def validate_name(name)
-        message = if name == nil
+    def validate_name(validatable:, value:)
+        message = if value == nil
             'nil'
-        elsif name == ''
+        elsif value == ''
             'empty'
-        elsif !name.match(/\S/)
+        elsif !value.match(/\S/)
             'blank'
         end
-        validatable = :name
         raise ValidationError.new("#{validatable} cannot be #{message}".capitalize) if message
     end
 
