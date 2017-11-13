@@ -14,13 +14,14 @@ class Expense
     end
 
     def validate_name(name)
-        if name == nil
-            raise ValidationError.new('Name cannot be nil')
+        message = if name == nil
+            'nil'
         elsif name == ''
-            raise ValidationError.new('Name cannot be empty')
+            'empty'
         elsif !name.match(/\S/)
-            raise ValidationError.new('Name cannot be blank')
+            'blank'
         end
+        raise ValidationError.new("Name cannot be #{message}") if message
     end
 
    class ValidationError < StandardError    
