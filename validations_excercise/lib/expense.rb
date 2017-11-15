@@ -14,15 +14,18 @@ class Expense
     end
 
     def validate_name(validatable:, value:)
-        message = if value == nil
+        message = case value
+        when nil
             'nil'
-        elsif value == ''
+        when  ''
             'empty'
-        elsif !value.match(/\S/)
+        when /^\s*$/
             'blank'
         end
+
         raise ValidationError.new("#{validatable} cannot be #{message}".capitalize) if message
     end
+
 
    class ValidationError < StandardError    
    end 
