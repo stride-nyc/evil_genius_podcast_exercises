@@ -7,7 +7,7 @@ class Expense
     def validate_amount(validatable:, value:)
         message = if value == nil
              'nil'
-        elsif value == -1
+        elsif value < 0
             'less than zero'
         end
         raise ValidationError.new("#{validatable} cannot be #{message}".capitalize) if message

@@ -39,7 +39,7 @@ describe 'Expense' do
 
         describe 'amount is less than zero' do
             it 'has error message that amount must not be less than zero' do
-                error = -> { Expense.new(name:'Rent', amount: -1) }.must_raise Expense::ValidationError
+                error = -> { Expense.new(name:'Rent', amount: (rand * -10).round(2)) }.must_raise Expense::ValidationError
                 error.message.must_equal 'Amount cannot be less than zero'
             end
         end
