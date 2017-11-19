@@ -5,14 +5,14 @@ class Expense
     end
 
     def validate_amount(validatable:, value:)
-        message =  validation_message(value) || if value < 0
+        message =  check_for_nil(value) || if value < 0
             'less than zero'
         end
         raise ValidationError.new("#{validatable} cannot be #{message}".capitalize) if message
     end
 
     def validate_name(validatable:, value:)
-        message = validation_message(value) || case value
+        message = check_for_nil(value) || case value
         when  ''
             'empty'
         when /^\s*$/
@@ -22,7 +22,7 @@ class Expense
         raise ValidationError.new("#{validatable} cannot be #{message}".capitalize) if message
     end
 
-    def validation_message(value)
+    def check_for_nil(value)
         if value == nil
             'nil'
         end
