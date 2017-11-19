@@ -1,21 +1,10 @@
 class Expense
     def initialize(name:, amount:)
-        validate_name(validatable: :name, value: name)
-        validate_amount(validatable: :amount, value: amount)
+        validate_parameter(validatable: :amount, value: amount, checks:[:nil, :less_than_zero])
+        validate_parameter(validatable: :name, value: name, checks: [:nil, :empty, :blank])
     end
 
-    def validate_amount(validatable:, value:, checks: [:nil, :less_than_zero])
-        message = checks.reduce(nil) do |msg, check|
-            if msg == nil
-                msg = send("check_for_#{check}", value)
-            end
-            msg
-        end
-
-        raise ValidationError.new("#{validatable} cannot be #{message}".capitalize) if message
-    end
-
-    def validate_name(validatable:, value:, checks:[:nil, :empty, :blank])
+    def validate_parameter(validatable:, value:, checks:)
         message = checks.reduce(nil) do |msg, check|
             if msg == nil
                 msg = send("check_for_#{check}", value)
