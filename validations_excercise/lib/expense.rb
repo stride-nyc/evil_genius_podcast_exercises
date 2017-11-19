@@ -15,8 +15,13 @@ class Expense
         raise ValidationError.new("#{validatable} cannot be #{message}".capitalize) if message
     end
 
-    def validate_name(validatable:, value:)
-        message = check_for_nil(value) || check_for_empty(value) || check_for_blank(value)
+    def validate_name(validatable:, value:, checks:[:nil, :empty, :blank])
+        message = checks.reduce(nil) do |msg, check|
+            if msg == nil
+                msg = send("check_for_#{check}", value)
+            end
+            msg
+        end
 
         raise ValidationError.new("#{validatable} cannot be #{message}".capitalize) if message
     end
