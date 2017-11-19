@@ -5,9 +5,8 @@ class Expense
     end
 
     def validate_amount(validatable:, value:)
-        message =  check_for_nil(value) || if value < 0
-            'less than zero'
-        end
+        message =  check_for_nil(value) || check_for_less_than_zero(value)
+        
         raise ValidationError.new("#{validatable} cannot be #{message}".capitalize) if message
     end
 
@@ -26,6 +25,12 @@ class Expense
         if value == nil
             'nil'
         end
+    end
+
+    def check_for_less_than_zero(value)
+        if value < 0
+            'less than zero'
+        end 
     end
 
    class ValidationError < StandardError    
