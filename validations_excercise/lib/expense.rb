@@ -4,8 +4,13 @@ class Expense
         validate_amount(validatable: :amount, value: amount)
     end
 
-    def validate_amount(validatable:, value:)
-        message =  check_for_nil(value) || check_for_less_than_zero(value)
+    def validate_amount(validatable:, value:, checks: [:nil, :less_than_zero])
+        message = checks.reduce(nil) do |msg, check|
+            if msg == nil
+                msg = send("check_for_#{check}", value)
+            end
+            msg
+        end
 
         raise ValidationError.new("#{validatable} cannot be #{message}".capitalize) if message
     end
