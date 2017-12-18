@@ -1,11 +1,11 @@
 class Expense
   def validates(value, attribute)
-    if value.class == NilClass
-      raise ValidationError, "#{attribute.capitalize} cannot be nil" if value.nil?
-    elsif value.class == String
+    raise ValidationError, "#{attribute.capitalize} cannot be nil" if value.nil?
+    case attribute
+    when :name
       raise ValidationError, 'Name cannot be empty' if value.empty?
       raise ValidationError, 'Name cannot be blank' if value.strip.empty?
-    elsif value.class == Integer
+    when :amount
       raise ValidationError, 'Amount cannot be less than zero' if value < 0
     end
   end
