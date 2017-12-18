@@ -1,8 +1,12 @@
 class Expense
+  def self.validates(attribute)
+    raise ValidationError, 'Name cannot be nil' if attribute.nil?
+  end
+
+  validates :name
+
   def initialize(options = {})
-    if options[:name].nil?
-      raise ValidationError, 'Name cannot be nil'
-    elsif options[:name].empty?
+    if options[:name].empty?
       raise ValidationError, 'Name cannot be empty'
     elsif options[:name].strip.empty?
       raise ValidationError, 'Name cannot be blank'
@@ -12,7 +16,7 @@ class Expense
       raise ValidationError, 'Amount cannot be less than zero'
     end
   end
+end
 
-  class ValidationError < StandardError
-  end
+class ValidationError < StandardError
 end
