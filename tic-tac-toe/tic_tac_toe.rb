@@ -25,22 +25,22 @@ class Game
   end
 
   def winner
-    if board[0,1] != '-' && board[0,1] == board[1,1] &&
-        board[1,1] == board[2,1]
-      return board[0,1]
+    if board[0] != '-' && board[0] == board[1] &&
+        board[1] == board[2]
+      return board[0]
     end
-    if board[3,1] != '-' && board[3,1] == board[4,1] &&
-        board[4,1] == board[5,1]
-      return board[3,1]
+    if board[3] != '-' && board[3] == board[4] &&
+        board[4] == board[5]
+      return board[3]
     end
-    if board[6,1] != '-' && board[6,1] == board[7,1] &&
-        board[7,1] == board[8,1]
-      return board[6,1]
+    if board[6] != '-' && board[6] == board[7] &&
+        board[7] == board[8]
+      return board[6]
     end
     return '-'
   end
 
   def square_unoccupied?(square)
-    board[square,1] == '-'
+    board[square] == '-'
   end
 end
