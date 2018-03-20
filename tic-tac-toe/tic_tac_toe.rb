@@ -12,8 +12,7 @@ class Game
   def best_move_for(player)
     SQUARES_ON_BOARD.each do |square|
       if square_unoccupied?(square)
-        game = create_new_game_for(square, player)
-        return square if game.winner == player
+        return square if winning_move?(square, player)
       end
     end
 
@@ -21,8 +20,9 @@ class Game
     return NO_MOVE
   end
 
-  def create_new_game_for(square, player)
-    Game.new(board, square, player)
+  def winning_move?(square, player)
+    game = Game.new(board, square, player)
+    game.winner == player
   end
 
   def winner
