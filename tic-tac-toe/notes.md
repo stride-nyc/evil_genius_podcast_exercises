@@ -1,3 +1,9 @@
+Next Steps
+- encapsulate each if block from #winner in its own method
+- change #winning_move? so that we no longer have to instantiate
+a new game just to modify the existing game board
+- introduce objects!
+
 Notes
 Method #best_move_for
   for each square, we:
