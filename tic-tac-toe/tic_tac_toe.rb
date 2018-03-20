@@ -1,25 +1,27 @@
 class Game
   attr_accessor :board
 
+  NO_MOVE = -1
+
   def initialize(s, position=nil, player=nil)
     @board = s.dup
     @board[position] = player unless position == nil
   end
 
-  def move(player)
-    (0..8).each do |i|
-      if board[i,1] == '-'
-        game = play(i, player)
-        return i if game.winner() == player
+  def best_move_for(player)
+    (0..8).each do |move|
+      if square_unoccupied?(move)
+        game = play(move, player)
+        return move if game.winner() == player
       end
     end
 
-    (0..8).each { |i| return i if board[i,1] == '-' }
-    return -1
+    (0..8).each { |move| return move if square_unoccupied?(move) }
+    return NO_MOVE
   end
 
-  def play(i, player)
-    Game.new(board, i, player)
+  def play(move, player)
+    Game.new(board, move, player)
   end
 
   def winner
@@ -36,5 +38,9 @@ class Game
       return board[6,1]
     end
     return '-'
+  end
+
+  def square_unoccupied?(square)
+    board[square,1] == '-'
   end
 end
