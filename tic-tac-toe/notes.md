@@ -1,3 +1,18 @@
+Notes
+Method #best_move_for
+  for each square, we:
+  - see if that square is unoccupied
+  - if so, we add letter to that square on the board
+  - then, we examine the board and look for a winner
+  - if there is a row where all three squares have Xs,
+    we return an X. if there is a row where all three
+    squares have Os, we return a O.
+  - Now, if we get through all the squares and we haven't
+    returned a "winner", then we go through the array and return
+    the first unoccupied square.
+  - If we still haven't returned anything by this point, we
+    return a -1, which means no move can be made.
+
 Test smells
 1. Architecture and naming
   We have a single object, Game. Game is initialized with a string that represents the board.
