@@ -15,13 +15,12 @@ class Game
       if square_unoccupied?(square)
         move = square if winning_move?(square, player)
       end
-    end
 
-    SQUARES_ON_BOARD.each  do  |square|
       if square_unoccupied?(square)
         move =  square if move == NO_MOVE
       end
     end
+
     return move
   end
 
