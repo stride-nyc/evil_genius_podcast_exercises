@@ -10,18 +10,19 @@ class Game
   end
 
   def best_move_for(player)
+    move = NO_MOVE
     SQUARES_ON_BOARD.each do |square|
       if square_unoccupied?(square)
-        return square if winning_move?(square, player)
+        move = square if winning_move?(square, player)
       end
     end
 
     SQUARES_ON_BOARD.each  do  |square|
       if square_unoccupied?(square)
-        return square
+        move =  square if move == NO_MOVE
       end
     end
-    return NO_MOVE
+    return move
   end
 
   def winning_move?(square, player)
