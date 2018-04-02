@@ -26,12 +26,8 @@ class Game
   end
 
   def winner
-    square = 0
-    return winning_player(square) if winning_player(square)
-    square = 3
-    return winning_player(square) if winning_player(square)
-    square = 6
-    return winning_player(square) if winning_player(square)
+    rows = [0, 3, 6]
+    rows.each { |row|  return winning_player(row) if winning_player(row) }
     return '-'
   end
 
