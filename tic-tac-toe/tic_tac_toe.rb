@@ -13,8 +13,7 @@ class Game
     move = NO_MOVE
     SQUARES_ON_BOARD.each do |square|
       if square_unoccupied?(square)
-        move = square if winning_move?(square, player)
-        move =  square if move == NO_MOVE
+        move = square if winning_move?(square, player) || move == NO_MOVE
       end
     end
 
@@ -27,17 +26,17 @@ class Game
   end
 
   def winner
-    if board[0] != '-' && board[0] == board[1] &&
-        board[1] == board[2]
-      return board[0]
+    square = 0
+    if board[square] != '-' && board[square] == board[square + 1] && board[square + 1] == board[square + 2]
+      return board[square]
     end
-    if board[3] != '-' && board[3] == board[4] &&
-        board[4] == board[5]
-      return board[3]
+    square = 3
+    if board[square] != '-' && board[square] == board[square + 1] && board[square + 1] == board[square + 2]
+      return board[square]
     end
-    if board[6] != '-' && board[6] == board[7] &&
-        board[7] == board[8]
-      return board[6]
+    square = 6
+    if board[square] != '-' && board[square] == board[square + 1] && board[square + 1] == board[square + 2]
+      return board[square]
     end
     return '-'
   end
