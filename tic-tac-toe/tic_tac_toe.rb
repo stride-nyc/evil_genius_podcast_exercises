@@ -16,7 +16,11 @@ class Game
       end
     end
 
-    SQUARES_ON_BOARD.each { |square| return square if square_unoccupied?(square) }
+    SQUARES_ON_BOARD.each  do  |square|
+      if square_unoccupied?(square)
+        return square
+      end
+    end
     return NO_MOVE
   end
 
