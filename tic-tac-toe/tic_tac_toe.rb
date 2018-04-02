@@ -27,18 +27,18 @@ class Game
 
   def winner
     square = 0
-    if board[square] != '-' && board[square] == board[square + 1] && board[square + 1] == board[square + 2]
-      return board[square]
-    end
+    return winning_player(square) if winning_player(square)
     square = 3
-    if board[square] != '-' && board[square] == board[square + 1] && board[square + 1] == board[square + 2]
-      return board[square]
-    end
+    return winning_player(square) if winning_player(square)
     square = 6
+    return winning_player(square) if winning_player(square)
+    return '-'
+  end
+
+  def winning_player(square)
     if board[square] != '-' && board[square] == board[square + 1] && board[square + 1] == board[square + 2]
       return board[square]
     end
-    return '-'
   end
 
   def square_unoccupied?(square)
