@@ -32,12 +32,16 @@ class Game
   end
 
   def winning_player(position)
-    if board[position] != '-' && board[position] == board[position.next] && board[position.next] == board[position.next.next]
+    if position_occupied?(position) && board[position] == board[position.next] && board[position.next] == board[position.next.next]
       return board[position]
     end
   end
 
   def position_unoccupied?(position)
     board[position] == '-'
+  end
+
+  def position_occupied?(position)
+    board[position] != '-'
   end
 end
