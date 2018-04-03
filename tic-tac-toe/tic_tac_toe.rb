@@ -26,14 +26,14 @@ class Game
   end
 
   def winner
-    rows = [0, 3, 6]
-    rows.each { |row|  return winning_player(row) if winning_player(row) }
+    first_position_in_rows = [0, 3, 6]
+    first_position_in_rows.each { |position|  return winning_player(position) if winning_player(position) }
     return '-'
   end
 
-  def winning_player(square)
-    if board[square] != '-' && board[square] == board[square + 1] && board[square + 1] == board[square + 2]
-      return board[square]
+  def winning_player(position)
+    if board[position] != '-' && board[position] == board[position.next] && board[position.next] == board[position.next.next]
+      return board[position]
     end
   end
 
