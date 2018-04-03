@@ -1,5 +1,5 @@
 require 'test/unit'
-require './tic_tac_toe'
+require_relative './tic_tac_toe'
 
 class GameTest < Test::Unit::TestCase
 
