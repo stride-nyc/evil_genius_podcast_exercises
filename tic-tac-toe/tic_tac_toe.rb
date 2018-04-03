@@ -27,21 +27,25 @@ class Game
 
   def winner
     first_position_in_rows = [0, 3, 6]
-    first_position_in_rows.each { |position|  return winning_player(position) if winning_player(position) }
+    first_position_in_rows.each { |position|  return mark_at(position) if winning_player(position) }
     return '-'
   end
 
   def winning_player(position)
-    if position_occupied?(position) && board[position] == board[position.next] && board[position.next] == board[position.next.next]
-      return board[position]
-    end
+    position_occupied?(position) &&
+    mark_at(position) == mark_at(position.next) &&
+    mark_at(position.next) == mark_at(position.next.next)
   end
 
   def position_unoccupied?(position)
-    board[position] == '-'
+    mark_at(position) == '-'
   end
 
   def position_occupied?(position)
-    board[position] != '-'
+    mark_at(position) != '-'
+  end
+
+  def mark_at(position)
+    board[position]
   end
 end
