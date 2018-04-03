@@ -32,10 +32,31 @@ class GameTest < Test::Unit::TestCase
     assert_equal(5, game.best_move_for('X'))
   end
 
-  def test_win_conditions
+  def test_win_horizontal_conditions
     game = Game.new("---" +
                     "XXX" +
                     "---")
     assert_equal('X', game.winner())
+  end
+
+  def test_win_vertical_conditions
+    game = Game.new("--O" +
+                    "--O" +
+                    "--O")
+    assert_equal('O', game.winner())
+  end
+
+  def test_win_left_diagonal_conditions
+    game = Game.new("X--" +
+                    "-X-" +
+                    "--X")
+    assert_equal('X', game.winner())
+  end
+
+   def test_win_right_diagonal_conditions
+    game = Game.new("--O" +
+                    "-O-" +
+                    "O--")
+    assert_equal('O', game.winner())
   end
 end
