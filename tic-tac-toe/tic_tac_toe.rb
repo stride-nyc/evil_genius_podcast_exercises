@@ -4,8 +4,8 @@ class Game
   NO_MOVE = -1
   POSITIONS_ON_BOARD = (0..8)
 
-  def initialize(s, position=nil, player=nil)
-    @board = s.dup
+  def initialize(board, position=nil, player=nil)
+    @board = board.dup
     @board[position] = player unless position == nil
   end
 
