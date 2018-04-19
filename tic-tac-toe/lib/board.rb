@@ -1,28 +1,26 @@
-class Game
-  attr_accessor :board
+class Board
+  attr_accessor :state
 
   NO_MOVE = -1
   POSITIONS_ON_BOARD = (0..8)
 
-  def initialize(board, position=nil, player=nil)
-    @board = board.dup
-    @board[position] = player unless position == nil
+  def initialize(state = "---------")
+    @state = state
   end
 
   def best_move_for(player)
     move = NO_MOVE
     POSITIONS_ON_BOARD.each do |position|
       if position_unoccupied?(position)
-        move = position if winning_move?(position, player) || move == NO_MOVE
+        move = position if winning_move?(player) || move == NO_MOVE
       end
     end
 
     return move
   end
 
-  def winning_move?(square, player)
-    game = Game.new(board, square, player)
-    game.winner == player
+  def winning_move?(player)
+    winner == player
   end
 
   def winner
@@ -70,6 +68,6 @@ class Game
   end
 
   def mark_at(position)
-    board[position]
+    state[position]
   end
 end
