@@ -56,7 +56,7 @@ class Board
   def winning_right_diagonal(position)
     position_occupied?(position) &&
     mark_at(position) == mark_at(position + 2) &&
-    mark_at(position + 4) == mark_at(position + 4)
+    mark_at(position + 2) == mark_at(position + 4)
   end
 
   def position_unoccupied?(position)
