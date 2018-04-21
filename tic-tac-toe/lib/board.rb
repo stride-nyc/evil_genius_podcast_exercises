@@ -29,38 +29,28 @@ class Board
 
   def winner
     first_position_in_rows = [0, 3, 6]
-    first_position_in_rows.each { |position|  return mark_at(position) if winning_row(position) }
+    first_position_in_rows.each { |position|  return mark_at(position) if winning_combo?(position, "ROW") }
+
     first_position_in_columns = [0, 1, 2]
-    first_position_in_columns.each { |position| return mark_at(position) if winning_column(position) }
+    first_position_in_columns.each { |position| return mark_at(position) if winning_combo?(position, "COLUMN") }
+
     first_position_in_left_diagonal = 0
-    return mark_at(first_position_in_left_diagonal) if winning_left_diagonal(first_position_in_left_diagonal)
+    return mark_at(first_position_in_left_diagonal) if winning_combo?(first_position_in_left_diagonal, "LEFT_DIAGONAL")
+
     first_position_in_right_diagonal = 2
-    return mark_at(first_position_in_right_diagonal) if winning_right_diagonal(first_position_in_right_diagonal)
+    return mark_at(first_position_in_right_diagonal) if winning_combo?(first_position_in_right_diagonal, "RIGHT_DIAGONAL")
+
     return '-'
   end
 
-  def winning_row(position)
+  def winning_combo?(position, direction)
     position_occupied?(position) &&
-    mark_at(position) == mark_at(position + ROW_STEP) &&
-    mark_at(position + ROW_STEP) == mark_at(position + ROW_STEP * 2)
+    mark_at(position) == mark_at(position + step_for(direction)) &&
+    mark_at(position + step_for(direction)) == mark_at(position + step_for(direction) * 2)
   end
 
-  def winning_column(position)
-    position_occupied?(position) &&
-    mark_at(position) == mark_at(position + COLUMN_STEP) &&
-    mark_at(position + COLUMN_STEP) == mark_at(position + COLUMN_STEP * 2)
-  end
-
-  def winning_left_diagonal(position)
-    position_occupied?(position) &&
-    mark_at(position) == mark_at(position + LEFT_DIAGONAL_STEP) &&
-    mark_at(position + LEFT_DIAGONAL_STEP) == mark_at(position + LEFT_DIAGONAL_STEP * 2)
-  end
-
-  def winning_right_diagonal(position)
-    position_occupied?(position) &&
-    mark_at(position) == mark_at(position + RIGHT_DIAGONAL_STEP) &&
-    mark_at(position + RIGHT_DIAGONAL_STEP) == mark_at(position + RIGHT_DIAGONAL_STEP * 2)
+  def step_for(direction)
+    self.class.const_get("#{direction}_STEP")
   end
 
   def position_unoccupied?(position)
