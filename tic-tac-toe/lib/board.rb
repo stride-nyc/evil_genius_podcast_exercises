@@ -37,8 +37,8 @@ class Board
 
   def winning_row(position)
     position_occupied?(position) &&
-    mark_at(position) == mark_at(position.next) &&
-    mark_at(position.next) == mark_at(position.next.next)
+    mark_at(position) == mark_at(position + 1) &&
+    mark_at(position + 1) == mark_at(position + 2)
   end
 
   def winning_column(position)
