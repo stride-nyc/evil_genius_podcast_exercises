@@ -3,6 +3,10 @@ class Board
 
   NO_MOVE = -1
   POSITIONS_ON_BOARD = (0..8)
+  ROW_STEP = 1
+  RIGHT_DIAGONAL_STEP = 2
+  COLUMN_STEP = 3
+  LEFT_DIAGONAL_STEP = 4
 
   def initialize(state = "---------")
     @state = state
@@ -37,26 +41,26 @@ class Board
 
   def winning_row(position)
     position_occupied?(position) &&
-    mark_at(position) == mark_at(position + 1) &&
-    mark_at(position + 1) == mark_at(position + 2)
+    mark_at(position) == mark_at(position + ROW_STEP) &&
+    mark_at(position + ROW_STEP) == mark_at(position + ROW_STEP * 2)
   end
 
   def winning_column(position)
     position_occupied?(position) &&
-    mark_at(position) == mark_at(position + 3) &&
-    mark_at(position + 3) == mark_at(position + 6)
+    mark_at(position) == mark_at(position + COLUMN_STEP) &&
+    mark_at(position + COLUMN_STEP) == mark_at(position + COLUMN_STEP * 2)
   end
 
   def winning_left_diagonal(position)
     position_occupied?(position) &&
-    mark_at(position) == mark_at(position + 4) &&
-    mark_at(position + 4) == mark_at(position + 8)
+    mark_at(position) == mark_at(position + LEFT_DIAGONAL_STEP) &&
+    mark_at(position + LEFT_DIAGONAL_STEP) == mark_at(position + LEFT_DIAGONAL_STEP * 2)
   end
 
   def winning_right_diagonal(position)
     position_occupied?(position) &&
-    mark_at(position) == mark_at(position + 2) &&
-    mark_at(position + 2) == mark_at(position + 4)
+    mark_at(position) == mark_at(position + RIGHT_DIAGONAL_STEP) &&
+    mark_at(position + RIGHT_DIAGONAL_STEP) == mark_at(position + RIGHT_DIAGONAL_STEP * 2)
   end
 
   def position_unoccupied?(position)
