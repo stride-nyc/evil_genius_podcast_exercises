@@ -3,10 +3,13 @@ class Board
 
   NO_MOVE = -1
   POSITIONS_ON_BOARD = (0..8)
-  ROW_STEP = 1
-  RIGHT_DIAGONAL_STEP = 2
-  COLUMN_STEP = 3
-  LEFT_DIAGONAL_STEP = 4
+
+  GAME_AI = {
+    row: { step: 1, first_positions: [0, 3, 6] },
+    column: { step: 3, first_positions: [0, 1, 2] },
+    left_diagonal: { step: 4, first_positions: [0] },
+    right_diagonal: { step: 2, first_positions: [2] },
+  }
 
   def initialize(state = "---------")
     @state = state
@@ -28,29 +31,17 @@ class Board
   end
 
   def winner
-    first_position_in_rows = [0, 3, 6]
-    first_position_in_rows.each { |position|  return mark_at(position) if winning_combo?(position, "ROW") }
-
-    first_position_in_columns = [0, 1, 2]
-    first_position_in_columns.each { |position| return mark_at(position) if winning_combo?(position, "COLUMN") }
-
-    first_position_in_left_diagonal = 0
-    return mark_at(first_position_in_left_diagonal) if winning_combo?(first_position_in_left_diagonal, "LEFT_DIAGONAL")
-
-    first_position_in_right_diagonal = 2
-    return mark_at(first_position_in_right_diagonal) if winning_combo?(first_position_in_right_diagonal, "RIGHT_DIAGONAL")
-
-    return '-'
+    GAME_AI.each do |direction, attrs|
+      attrs[:first_positions].any? do |position|
+        return mark_at(position) if winning_combo?(position, attrs[:step])
+      end
+    end
   end
 
-  def winning_combo?(position, direction)
+  def winning_combo?(position, step)
     position_occupied?(position) &&
-    mark_at(position) == mark_at(position + step_for(direction)) &&
-    mark_at(position + step_for(direction)) == mark_at(position + step_for(direction) * 2)
-  end
-
-  def step_for(direction)
-    self.class.const_get("#{direction}_STEP")
+    mark_at(position) == mark_at(position + step) &&
+    mark_at(position + step) == mark_at(position + step * 2)
   end
 
   def position_unoccupied?(position)
