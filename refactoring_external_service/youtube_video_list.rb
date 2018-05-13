@@ -1,4 +1,16 @@
+ class VideoRepo
+    def videos
+      video_list_json = File.read('videos.json')
+      JSON.parse(video_list_json)
+    end
+ end
+ 
  class VideoService
+    attr_reader :video_repo
+  def initialize(video_repo:)
+    @video_repo = video_repo
+  end
+
   def video_list
     @video_list = get_current_video_list
     ids = @video_list.map{|v| v['youtubeID']}
@@ -16,8 +28,7 @@
   private
   
   def get_current_video_list
-    video_list_json = File.read('videos.json')
-    JSON.parse(video_list_json)
+    video_repo.videos
   end
 
   def get_youtube_stats_on_videos(youtube_ids)
