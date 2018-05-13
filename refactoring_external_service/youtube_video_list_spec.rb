@@ -49,4 +49,25 @@ class VideoServiceTest < MiniTest::Test
         assert_in_delta(expected[0]['monthlyViews'], actual[0]['monthlyViews'], 0.1)
     end
 
+    def test_when_one_day_has_passed
+        video_repo_response = [{'youtubeID' => 'blahblahblah', 'views' => 0, 'monthlyViews' => 0}]
+        youtube_client_response =  {'items' => 
+            [
+                {
+                    'id' =>'blahblahblah', 
+                    'statistics' => {'viewCount' => '3'}, 
+                    'snippet' => {'publishedAt' => (Date.today - 29).to_s }
+                }
+            ]
+        }
+        video_service = VideoService.new(
+            video_repo: VideoRepoStub.new(video_repo_response), 
+            video_client: YoutubeVideoClientStub.new(youtube_client_response)
+        )
+        actual = JSON.parse(video_service.video_list)
+        assert_equal(3, actual[0]['views'])
+        # I'm making an assumption here that when the video has been out less than 30 days, 
+        # the monthlyViews should be just the total views
+        assert_equal(3, actual[0]['monthlyViews'])
+    end
 end
