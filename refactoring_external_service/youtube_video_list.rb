@@ -51,6 +51,6 @@
   def monthlyViews(views, publishing_date)
     days_available = Date.today - Date.parse(publishing_date)
     return views if days_available < 30
-    views * 365.0 / days_available / 12
+    (views * 365 / days_available / 12).to_i
   end
 end

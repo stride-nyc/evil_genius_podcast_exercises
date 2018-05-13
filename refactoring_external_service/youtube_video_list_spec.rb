@@ -46,7 +46,7 @@ class VideoServiceTest < MiniTest::Test
         expected = video_repo_response
         assert_equal(expected[0]['youtubeID'], actual[0]['youtubeID'])
         assert_equal(expected[0]['views'], actual[0]['views'])
-        assert_in_delta(expected[0]['monthlyViews'], actual[0]['monthlyViews'], 0.1)
+        assert_equal(expected[0]['monthlyViews'], actual[0]['monthlyViews'])
     end
 
     def test_when_less_than_thirty_days_have_passed
@@ -87,7 +87,9 @@ class VideoServiceTest < MiniTest::Test
             video_client: YoutubeVideoClientStub.new(youtube_client_response)
         )
         actual = JSON.parse(video_service.video_list)
-        assert_equal(10, actual[0]['views'])
-        assert_equal(5, actual[0]['monthlyViews'])
+        assert_equal(10, actual[0]['views'], 'Total Views')
+        # I'm making another assumption here that fractional views don't really count for anything
+        # So monthly views should always be integers. 
+        assert_equal(5, actual[0]['monthlyViews'], 'Monthly Views')
     end
 end
