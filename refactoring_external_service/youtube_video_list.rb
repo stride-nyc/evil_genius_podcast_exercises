@@ -40,10 +40,17 @@
     ids.each do |id|
       video = @video_list.find{|v| id == v['youtubeID']}
       youtube_record = response['items'].find{|v| id == v['id']}
-      video['views'] = youtube_record['statistics']['viewCount'].to_i
-      days_available = Date.today - Date.parse(youtube_record['snippet']['publishedAt'])
-      video['monthlyViews'] = video['views'] * 365.0 / days_available / 12
+      video['views'] = youtube_record['statistics']['viewCount'].to_i   
+      video['monthlyViews'] = monthlyViews(video['views'], youtube_record['snippet']['publishedAt'])
     end
     return JSON.dump(@video_list)
+  end
+
+  private
+
+  def monthlyViews(views, publishing_date)
+    days_available = Date.today - Date.parse(publishing_date)
+    return views if days_available < 31
+    views * 365.0 / days_available / 12
   end
 end

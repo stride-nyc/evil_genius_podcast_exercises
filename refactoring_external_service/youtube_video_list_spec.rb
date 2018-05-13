@@ -49,7 +49,7 @@ class VideoServiceTest < MiniTest::Test
         assert_in_delta(expected[0]['monthlyViews'], actual[0]['monthlyViews'], 0.1)
     end
 
-    def test_when_one_day_has_passed
+    def test_when_less_than_thirty_days_have_passed
         video_repo_response = [{'youtubeID' => 'blahblahblah', 'views' => 0, 'monthlyViews' => 0}]
         youtube_client_response =  {'items' => 
             [
