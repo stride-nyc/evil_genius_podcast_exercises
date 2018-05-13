@@ -78,7 +78,7 @@ class VideoServiceTest < MiniTest::Test
                 {
                     'id' =>'blahblahblah', 
                     'statistics' => {'viewCount' => '10'}, 
-                    'snippet' => {'publishedAt' => (Date.today + 60).to_s }
+                    'snippet' => {'publishedAt' => (Date.today - 60).to_s }
                 }
             ]
         }
