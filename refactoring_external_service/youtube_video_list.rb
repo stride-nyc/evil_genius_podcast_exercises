@@ -12,7 +12,7 @@
   end
 
   def video_list
-    @video_list = get_current_video_list
+    @video_list = video_repo.videos
     ids = @video_list.map{|v| v['youtubeID']}
     response = get_youtube_stats_on_videos(ids)
     ids.each do |id|
@@ -26,10 +26,6 @@
   end
 
   private
-  
-  def get_current_video_list
-    video_repo.videos
-  end
 
   def get_youtube_stats_on_videos(youtube_ids)
     client = GoogleAuthorizer.new(
