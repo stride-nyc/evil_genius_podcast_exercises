@@ -21,21 +21,22 @@
           part: 'snippet, contentDetails, statistics',
         }
       }
-      
+
       response = JSON.parse(client.execute!(request).body)
     end
  end
  
  class VideoService
-    attr_reader :video_repo
-  def initialize(video_repo:)
+    attr_reader :video_repo, :video_client
+  def initialize(video_repo:, video_client:)
     @video_repo = video_repo
+    @video_client = video_client
   end
 
   def video_list
     @video_list = video_repo.videos
     ids = @video_list.map{|v| v['youtubeID']}
-    response = get_youtube_stats_on_videos(ids)
+    response = video_client.video_stats(ids)
     ids.each do |id|
       video = @video_list.find{|v| id == v['youtubeID']}
       youtube_record = response['items'].find{|v| id == v['id']}
@@ -44,11 +45,5 @@
       video['monthlyViews'] = video['views'] * 365.0 / days_available / 12
     end
     return JSON.dump(@video_list)
-  end
-
-  private
-
-  def get_youtube_stats_on_videos(youtube_ids)
-    YoutubeVideoClient.new.video_stats(youtube_ids)
   end
 end
