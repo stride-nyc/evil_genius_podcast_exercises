@@ -35,9 +35,9 @@
 
   def video_list
     @video_list = video_repo.videos
-    ids = @video_list.map{|v| v['youtubeID']}
-    response = video_client.video_stats(ids)
-    ids.each do |id|
+    external_ids = @video_list.map{|v| v['youtubeID']}
+    response = video_client.video_stats(external_ids)
+    external_ids.each do |id|
       video = @video_list.find{|v| id == v['youtubeID']}
       youtube_record = response['items'].find{|v| id == v['id']}
       video['views'] = youtube_record['statistics']['viewCount'].to_i   
