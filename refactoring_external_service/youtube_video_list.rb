@@ -4,6 +4,27 @@
       JSON.parse(video_list_json)
     end
  end
+
+ class YoutubeVideoClient
+    def video_stats(youtube_ids)
+      client = GoogleAuthorizer.new(
+        token_key: 'api-youtube',
+        application_name: 'Gateway Youtube Example',
+        application_version: '0.1'
+        ).api_client
+
+      youtube = client.discovered_api('youtube', 'v3')
+      request = {
+        api_method: youtube.videos.list,
+        parameters: {
+          id: youtube_ids.join(","),
+          part: 'snippet, contentDetails, statistics',
+        }
+      }
+      
+      response = JSON.parse(client.execute!(request).body)
+    end
+ end
  
  class VideoService
     attr_reader :video_repo
@@ -28,21 +49,6 @@
   private
 
   def get_youtube_stats_on_videos(youtube_ids)
-    client = GoogleAuthorizer.new(
-      token_key: 'api-youtube',
-      application_name: 'Gateway Youtube Example',
-      application_version: '0.1'
-      ).api_client
-    # NOTE: External Service
-    youtube = client.discovered_api('youtube', 'v3')
-    request = {
-      api_method: youtube.videos.list,# NOTE: External Service
-      parameters: {
-        id: youtube_ids.join(","),
-        part: 'snippet, contentDetails, statistics',
-      }
-    }
-    # NOTE: External Service 
-    response = JSON.parse(client.execute!(request).body)
+    YoutubeVideoClient.new.video_stats(youtube_ids)
   end
 end
