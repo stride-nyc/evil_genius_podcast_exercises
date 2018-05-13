@@ -70,4 +70,25 @@ class VideoServiceTest < MiniTest::Test
         # the monthlyViews should be just the total views
         assert_equal(3, actual[0]['monthlyViews'])
     end
+
+    def test_when_no_days_have_passed_since_publishing
+        video_repo_response = [{'youtubeID' => 'blahblahblah', 'views' => 0, 'monthlyViews' => 0}]
+        youtube_client_response =  {'items' => 
+            [
+                {
+                    'id' =>'blahblahblah', 
+                    'statistics' => {'viewCount' => '3'}, 
+                    'snippet' => {'publishedAt' => (Date.today).to_s }
+                }
+            ]
+        }
+        video_service = VideoService.new(
+            video_repo: VideoRepoStub.new(video_repo_response), 
+            video_client: YoutubeVideoClientStub.new(youtube_client_response)
+        )
+        actual = JSON.parse(video_service.video_list)
+        assert_equal(3, actual[0]['views'])
+        # I'm assuming here again that when no days have passed the monthlyViews equals the views
+        assert_equal(3, actual[0]['monthlyViews'])
+    end
 end
