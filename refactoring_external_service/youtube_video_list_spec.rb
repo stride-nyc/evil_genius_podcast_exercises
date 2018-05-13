@@ -71,14 +71,14 @@ class VideoServiceTest < MiniTest::Test
         assert_equal(3, actual[0]['monthlyViews'])
     end
 
-    def test_when_no_days_have_passed_since_publishing
+    def test_when_sixty_days_have_passed_since_publishing
         video_repo_response = [{'youtubeID' => 'blahblahblah', 'views' => 0, 'monthlyViews' => 0}]
         youtube_client_response =  {'items' => 
             [
                 {
                     'id' =>'blahblahblah', 
-                    'statistics' => {'viewCount' => '3'}, 
-                    'snippet' => {'publishedAt' => (Date.today).to_s }
+                    'statistics' => {'viewCount' => '10'}, 
+                    'snippet' => {'publishedAt' => (Date.today + 60).to_s }
                 }
             ]
         }
@@ -87,8 +87,7 @@ class VideoServiceTest < MiniTest::Test
             video_client: YoutubeVideoClientStub.new(youtube_client_response)
         )
         actual = JSON.parse(video_service.video_list)
-        assert_equal(3, actual[0]['views'])
-        # I'm assuming here again that when no days have passed the monthlyViews equals the views
-        assert_equal(3, actual[0]['monthlyViews'])
+        assert_equal(10, actual[0]['views'])
+        assert_equal(5, actual[0]['monthlyViews'])
     end
 end
