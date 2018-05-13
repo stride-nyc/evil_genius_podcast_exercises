@@ -26,7 +26,7 @@ class VideoServiceTest < MiniTest::Test
         end
     end
     
-    def test_video_list_returns_video_list
+    def test_when_views_unchanged_for_one_month
         video_repo_response = [{'youtubeID' => 'blahblahblah', 'views' => 3, 'monthlyViews' => 3}]
         youtube_client_response =  {'items' => 
             [
@@ -41,7 +41,6 @@ class VideoServiceTest < MiniTest::Test
             video_repo: VideoRepoStub.new(video_repo_response), 
             video_client: YoutubeVideoClientStub.new(youtube_client_response)
         )
-        video_json = JSON.generate(video_repo_response)
 
         actual = JSON.parse(video_service.video_list)
         expected = video_repo_response
