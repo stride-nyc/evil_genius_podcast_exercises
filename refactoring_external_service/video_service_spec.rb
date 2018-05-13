@@ -1,5 +1,5 @@
 require 'minitest/autorun'
-require './youtube_video_list'
+require './video_service'
 require 'json'
 require 'date'
 
