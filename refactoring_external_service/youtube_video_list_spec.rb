@@ -43,11 +43,11 @@ class VideoServiceTest < MiniTest::Test
         )
         video_json = JSON.generate(video_repo_response)
 
-        result = JSON.parse(video_service.video_list)
-        actual = JSON.parse(video_json)
-        assert_equal(result[0]['youtubeID'], result[0]['youtubeID'])
-        assert_equal(result[0]['views'], result[0]['views'])
-        assert_in_delta(result[0]['monthlyViews'], result[0]['monthlyViews'], 0.1)
-
+        actual = JSON.parse(video_service.video_list)
+        expected = video_repo_response
+        assert_equal(expected[0]['youtubeID'], actual[0]['youtubeID'])
+        assert_equal(expected[0]['views'], actual[0]['views'])
+        assert_in_delta(expected[0]['monthlyViews'], actual[0]['monthlyViews'], 0.1)
     end
+
 end
