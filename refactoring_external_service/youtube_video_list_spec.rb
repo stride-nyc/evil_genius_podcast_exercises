@@ -10,12 +10,11 @@ class VideoServiceTest < MiniTest::Test
             [{'youtubeID' => 'blahblahblah', 'views' => 3, 'monthlyViews' => 3}]
         end
     end
-    
-    def test_video_list_returns_video_list
-        video_service = VideoService.new(video_repo: VideoRepoMock.new)
-        video_array = [{'youtubeID' => 'blahblahblah', 'views' => 3, 'monthlyViews' => 3}]
-        youtube_response = {'items' => 
-               [
+
+    class YoutubeVideoClientMock
+        def get_video_stats(ids=:NotGiven)
+            {'items' => 
+                [
                     {
                         'id' =>'blahblahblah', 
                         'statistics' => {'viewCount' => '3'}, 
@@ -23,6 +22,13 @@ class VideoServiceTest < MiniTest::Test
                     }
                 ]
             }
+        end
+    end
+    
+    def test_video_list_returns_video_list
+        video_service = VideoService.new(video_repo: VideoRepoMock.new)
+        video_array = [{'youtubeID' => 'blahblahblah', 'views' => 3, 'monthlyViews' => 3}]
+        youtube_response = YoutubeVideoClientMock.new.get_video_stats()
         video_json = JSON.generate(video_array)
         video_service.stub(:get_youtube_stats_on_videos, youtube_response) do
             result = JSON.parse(video_service.video_list)
