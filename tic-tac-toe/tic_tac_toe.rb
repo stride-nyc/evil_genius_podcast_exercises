@@ -1,40 +1,47 @@
 class Game
   attr_accessor :board
 
+  NO_MOVE = -1
+  SQUARES_ON_BOARD = (0..8)
+
   def initialize(s, position=nil, player=nil)
     @board = s.dup
     @board[position] = player unless position == nil
   end
 
-  def move(player)
-    (0..8).each do |i|
-      if board[i,1] == '-'
-        game = play(i, player)
-        return i if game.winner() == player
+  def best_move_for(player)
+    SQUARES_ON_BOARD.each do |square|
+      if square_unoccupied?(square)
+        return square if winning_move?(square, player)
       end
     end
 
-    (0..8).each { |i| return i if board[i,1] == '-' }
-    return -1
+    SQUARES_ON_BOARD.each { |square| return square if square_unoccupied?(square) }
+    return NO_MOVE
   end
 
-  def play(i, player)
-    Game.new(board, i, player)
+  def winning_move?(square, player)
+    game = Game.new(board, square, player)
+    game.winner == player
   end
 
   def winner
-    if board[0,1] != '-' && board[0,1] == board[1,1] &&
-        board[1,1] == board[2,1]
-      return board[0,1]
+    if board[0] != '-' && board[0] == board[1] &&
+        board[1] == board[2]
+      return board[0]
     end
-    if board[3,1] != '-' && board[3,1] == board[4,1] &&
-        board[4,1] == board[5,1]
-      return board[3,1]
+    if board[3] != '-' && board[3] == board[4] &&
+        board[4] == board[5]
+      return board[3]
     end
-    if board[6,1] != '-' && board[6,1] == board[7,1] &&
-        board[7,1] == board[8,1]
-      return board[6,1]
+    if board[6] != '-' && board[6] == board[7] &&
+        board[7] == board[8]
+      return board[6]
     end
     return '-'
+  end
+
+  def square_unoccupied?(square)
+    board[square] == '-'
   end
 end
