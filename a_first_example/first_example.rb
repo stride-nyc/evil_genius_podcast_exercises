@@ -40,7 +40,6 @@ class Customer
       this_amount = 0
 
       this_amount += base_charge_for_rental(rental)
-      this_amount += extra_charge_for_rental(rental)
 
       frequent_renter_points += points_for_rental(rental)
 
@@ -57,23 +56,18 @@ class Customer
   def base_charge_for_rental(rental)
     case rental.movie.price_code
     when Movie::REGULAR
-      2
+      2 + extra_charge_for_rental(rental)
     when Movie::NEW_RELEASE
-      rental.days_rented * 3
+      rental.days_rented * 3 + extra_charge_for_rental(rental)
     when Movie::CHILDRENS
-      1.5
+      1.5 + extra_charge_for_rental(rental)
     end
   end
 
   def extra_charge_for_rental(rental)
-    case rental.movie.price_code
-    when Movie::REGULAR, Movie::CHILDRENS, Movie::NEW_RELEASE
-      if rental.days_rented > base_rental_period(rental)
-        (rental.days_rented - base_rental_period(rental)) * 1.5
-      else
-        0
-      end
-    when Movie::NEW_RELEASE
+    if rental.days_rented > base_rental_period(rental)
+      (rental.days_rented - base_rental_period(rental)) * 1.5
+    else
       0
     end
   end
