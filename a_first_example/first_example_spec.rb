@@ -48,6 +48,16 @@ class TestFirstExample < Minitest::Test
       "You earned 2 frequent renter points")
   end
 
+  def test_2day_reg
+    @joe.add_rental(Rental.new(@reg_movie, 2))
+
+    assert_equal(@joe.statement, 
+      "Rental Record for Joe\n\t" + 
+      "Jaws\t2\n" + 
+      "Amount owed is 2\n" +
+      "You earned 1 frequent renter points")
+  end
+
   def test_3day_reg
     @joe.add_rental(Rental.new(@reg_movie, 3))
 

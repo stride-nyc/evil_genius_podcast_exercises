@@ -3,10 +3,10 @@ class Movie
   CHILDRENS = 2
   REGULAR = 0
   NEW_RELEASE = 1
-  
+
   attr_reader :title
   attr_accessor :price_code
-  
+
   def initialize(title, price_code)
     @title, @price_code = title, price_code
   end
@@ -43,10 +43,10 @@ class Customer
       this_amount += base_cost_of_rental(rental)
       case rental.movie.price_code
         when Movie::REGULAR
-          this_amount += (rental.days_rented - 2) * 1.5 if rental.days_rented > 2
+          this_amount += extra_charge_for_rental(rental)
         when Movie::NEW_RELEASE
         when Movie::CHILDRENS
-          this_amount += (rental.days_rented - 3) * 1.5 if rental.days_rented > 3
+          this_amount += extra_charge_for_rental(rental) #(rental.days_rented - 3) * 1.5 if rental.days_rented > 3
       end
 
       # add frequent renter points
@@ -72,6 +72,23 @@ class Customer
       rental.days_rented * 3
     when Movie::CHILDRENS
       1.5
+    end
+  end
+
+  def extra_charge_for_rental(rental)
+    case rental.movie.price_code
+    when Movie::REGULAR
+      if rental.days_rented > 2
+        (rental.days_rented - 2) * 1.5
+      else
+        0
+      end
+    when Movie::CHILDRENS
+      if rental.days_rented > 3
+        (rental.days_rented - 3) * 1.5
+      else
+        0
+      end
     end
   end
 end
