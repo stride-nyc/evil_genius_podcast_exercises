@@ -80,11 +80,7 @@ class Customer
         0
       end
     when Movie::NEW_RELEASE
-      if rental.days_rented > base_rental_period(rental)
-        0
-      else
-        0
-      end
+      0
     end
   end
 
@@ -94,8 +90,6 @@ class Customer
       2
     when Movie::CHILDRENS
       3
-    when Movie::NEW_RELEASE
-      0
     end
   end
 
