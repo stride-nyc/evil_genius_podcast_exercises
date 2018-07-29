@@ -40,14 +40,12 @@ class Customer
       this_amount = 0
 
       # determine amounts for each line
+      this_amount += base_cost_of_movie(rental)
       case rental.movie.price_code
         when Movie::REGULAR
-          this_amount += base_cost_of_movie(rental)
           this_amount += (rental.days_rented - 2) * 1.5 if rental.days_rented > 2
         when Movie::NEW_RELEASE
-          this_amount += base_cost_of_movie(rental) #base cost of movie
         when Movie::CHILDRENS
-          this_amount += base_cost_of_movie(rental)
           this_amount += (rental.days_rented - 3) * 1.5 if rental.days_rented > 3
       end
 
