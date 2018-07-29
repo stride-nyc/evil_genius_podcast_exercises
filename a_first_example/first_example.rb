@@ -39,14 +39,10 @@ class Customer
     @rentals.each do |rental|
       this_amount = 0
 
-      # determine amounts for each line
       this_amount += base_charge_for_rental(rental)
       this_amount += extra_charge_for_rental(rental)
 
-      # add frequent renter points
-      frequent_renter_points += 1
-      # add bonus for a two day new release rental
-      frequent_renter_points += 1 if rental.movie.price_code == Movie::NEW_RELEASE && rental.days_rented > 1
+      frequent_renter_points += points_for_rental(rental)
 
       # show figures for this rental
       result += "\t" + rental.movie.title + "\t" + this_amount.to_s + "\n"
@@ -85,6 +81,19 @@ class Customer
       end
     when Movie::NEW_RELEASE
       0
+    end
+  end
+
+  def points_for_rental(rental)
+    case rental.movie.price_code
+    when Movie::CHILDRENS, Movie::REGULAR
+      1
+    when Movie::NEW_RELEASE
+      if rental.days_rented > 1
+        2
+      else
+        1
+      end
     end
   end
 end
