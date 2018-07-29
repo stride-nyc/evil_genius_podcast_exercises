@@ -40,7 +40,7 @@ class Customer
       this_amount = 0
 
       # determine amounts for each line
-      this_amount += base_cost_of_movie(rental)
+      this_amount += base_cost_of_rental(rental)
       case rental.movie.price_code
         when Movie::REGULAR
           this_amount += (rental.days_rented - 2) * 1.5 if rental.days_rented > 2
@@ -64,7 +64,7 @@ class Customer
     result
   end
 
-  def base_cost_of_movie(rental)
+  def base_cost_of_rental(rental)
     case rental.movie.price_code
     when Movie::REGULAR
       2
