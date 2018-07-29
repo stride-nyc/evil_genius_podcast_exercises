@@ -40,7 +40,7 @@ class Customer
       this_amount = 0
 
       # determine amounts for each line
-      this_amount += base_cost_of_rental(rental)
+      this_amount += base_charge_for_rental(rental)
       this_amount += extra_charge_for_rental(rental)
 
       # add frequent renter points
@@ -58,7 +58,7 @@ class Customer
     result
   end
 
-  def base_cost_of_rental(rental)
+  def base_charge_for_rental(rental)
     case rental.movie.price_code
     when Movie::REGULAR
       2
