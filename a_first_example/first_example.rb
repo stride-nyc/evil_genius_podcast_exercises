@@ -41,13 +41,7 @@ class Customer
 
       # determine amounts for each line
       this_amount += base_cost_of_rental(rental)
-      case rental.movie.price_code
-        when Movie::REGULAR
-          this_amount += extra_charge_for_rental(rental)
-        when Movie::NEW_RELEASE
-        when Movie::CHILDRENS
-          this_amount += extra_charge_for_rental(rental) #(rental.days_rented - 3) * 1.5 if rental.days_rented > 3
-      end
+      this_amount += extra_charge_for_rental(rental)
 
       # add frequent renter points
       frequent_renter_points += 1
@@ -89,6 +83,8 @@ class Customer
       else
         0
       end
+    when Movie::NEW_RELEASE
+      0
     end
   end
 end
