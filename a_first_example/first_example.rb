@@ -42,12 +42,12 @@ class Customer
       # determine amounts for each line
       case rental.movie.price_code
         when Movie::REGULAR
-          this_amount += 2
+          this_amount += base_cost_of_movie(rental)
           this_amount += (rental.days_rented - 2) * 1.5 if rental.days_rented > 2
         when Movie::NEW_RELEASE
-          this_amount += rental.days_rented * 3
+          this_amount += base_cost_of_movie(rental) #base cost of movie
         when Movie::CHILDRENS
-          this_amount += 1.5
+          this_amount += base_cost_of_movie(rental)
           this_amount += (rental.days_rented - 3) * 1.5 if rental.days_rented > 3
       end
 
@@ -64,5 +64,16 @@ class Customer
     result += "Amount owed is #{total_amount.to_s}\n"
     result += "You earned #{frequent_renter_points.to_s} frequent renter points"
     result
+  end
+
+  def base_cost_of_movie(rental)
+    case rental.movie.price_code
+    when Movie::REGULAR
+      2
+    when Movie::NEW_RELEASE
+      rental.days_rented * 3
+    when Movie::CHILDRENS
+      1.5
+    end
   end
 end
