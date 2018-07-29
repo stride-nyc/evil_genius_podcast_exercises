@@ -39,7 +39,7 @@ class Customer
     @rentals.each do |rental|
       this_amount = 0
 
-      this_amount += base_charge_for_rental(rental)
+      this_amount += charge_for_rental(rental)
 
       frequent_renter_points += points_for_rental(rental)
 
@@ -53,7 +53,7 @@ class Customer
     result
   end
 
-  def base_charge_for_rental(rental)
+  def charge_for_rental(rental)
     case rental.movie.price_code
     when Movie::REGULAR
       2 + extra_charge_for_rental(rental)
