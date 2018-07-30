@@ -20,6 +20,12 @@ class Rental
     @movie, @days_rented = movie, days_rented
   end
 
+  def charge
+    base_charge + extra_charge
+  end
+
+  private
+
   def base_charge
     case movie.price_code
     when Movie::REGULAR
@@ -69,7 +75,7 @@ class Customer
     @rentals.each do |rental|
       this_amount = 0
 
-      this_amount += charge_for_rental(rental)
+      this_amount += rental.charge
 
       frequent_renter_points += points_for_rental(rental)
 
@@ -81,17 +87,6 @@ class Customer
     result += "Amount owed is #{total_amount.to_s}\n"
     result += "You earned #{frequent_renter_points.to_s} frequent renter points"
     result
-  end
-
-  def charge_for_rental(rental)
-    case rental.movie.price_code
-    when Movie::REGULAR
-      rental.base_charge + rental.extra_charge
-    when Movie::NEW_RELEASE
-      rental.base_charge + rental.extra_charge
-    when Movie::CHILDRENS
-      rental.base_charge + rental.extra_charge
-    end
   end
 
   def points_for_rental(rental)
