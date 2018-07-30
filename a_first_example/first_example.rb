@@ -37,6 +37,10 @@ class Rental
     end
   end
 
+  def title
+    movie.title
+  end
+
   private
 
   def base_charge
@@ -88,7 +92,7 @@ class Customer
     @rentals.each do |rental|
       frequent_renter_points += rental.points
       # show figures for this rental
-      result += "\t#{rental.movie.title}\t#{rental.charge}\n"
+      result += "\t#{rental.title}\t#{rental.charge}\n"
       total_amount += rental.charge
     end
     # add footer lines
