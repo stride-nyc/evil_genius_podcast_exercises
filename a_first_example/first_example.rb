@@ -86,19 +86,14 @@ class Customer
     total_amount, frequent_renter_points = 0, 0
     result = "Rental Record for #{@name}\n"
     @rentals.each do |rental|
-      this_amount = 0
-
-      this_amount += rental.charge
-
       frequent_renter_points += rental.points
-
       # show figures for this rental
-      result += "\t" + rental.movie.title + "\t" + this_amount.to_s + "\n"
-      total_amount += this_amount
+      result += "\t#{rental.movie.title}\t#{rental.charge}\n"
+      total_amount += rental.charge
     end
     # add footer lines
-    result += "Amount owed is #{total_amount.to_s}\n"
-    result += "You earned #{frequent_renter_points.to_s} frequent renter points"
+    result += "Amount owed is #{total_amount}\n"
+    result += "You earned #{frequent_renter_points} frequent renter points"
     result
   end
 
