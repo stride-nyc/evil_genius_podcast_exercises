@@ -30,6 +30,25 @@ class Rental
       days_rented * 3
     end
   end
+
+  def extra_charge
+    if days_rented > base_period
+      (days_rented - base_period) * 1.5
+    else
+      0
+    end
+  end
+
+  def base_period
+    case movie.price_code
+    when Movie::REGULAR
+      2
+    when Movie::CHILDRENS
+      3
+    when Movie::NEW_RELEASE
+      Float::INFINITY
+    end
+  end
 end
 
 class Customer
@@ -67,30 +86,11 @@ class Customer
   def charge_for_rental(rental)
     case rental.movie.price_code
     when Movie::REGULAR
-      rental.base_charge + extra_charge_for_rental(rental)
+      rental.base_charge + rental.extra_charge
     when Movie::NEW_RELEASE
-      rental.base_charge + extra_charge_for_rental(rental)
+      rental.base_charge + rental.extra_charge
     when Movie::CHILDRENS
-      rental.base_charge + extra_charge_for_rental(rental)
-    end
-  end
-
-  def extra_charge_for_rental(rental)
-    if rental.days_rented > base_rental_period(rental)
-      (rental.days_rented - base_rental_period(rental)) * 1.5
-    else
-      0
-    end
-  end
-
-  def base_rental_period(rental)
-    case rental.movie.price_code
-    when Movie::REGULAR
-      2
-    when Movie::CHILDRENS
-      3
-    when Movie::NEW_RELEASE
-      Float::INFINITY
+      rental.base_charge + rental.extra_charge
     end
   end
 
