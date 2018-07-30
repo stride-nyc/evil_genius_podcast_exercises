@@ -19,6 +19,17 @@ class Rental
   def initialize(movie, days_rented)
     @movie, @days_rented = movie, days_rented
   end
+
+  def base_charge
+    case movie.price_code
+    when Movie::REGULAR
+      2
+    when Movie::CHILDRENS
+      1.5
+    when Movie::NEW_RELEASE
+      days_rented * 3
+    end
+  end
 end
 
 class Customer
@@ -56,22 +67,11 @@ class Customer
   def charge_for_rental(rental)
     case rental.movie.price_code
     when Movie::REGULAR
-      base_charge_for_rental(rental) + extra_charge_for_rental(rental)
+      rental.base_charge + extra_charge_for_rental(rental)
     when Movie::NEW_RELEASE
-      base_charge_for_rental(rental) + extra_charge_for_rental(rental)
+      rental.base_charge + extra_charge_for_rental(rental)
     when Movie::CHILDRENS
-      base_charge_for_rental(rental) + extra_charge_for_rental(rental)
-    end
-  end
-
-  def base_charge_for_rental(rental)
-    case rental.movie.price_code
-    when Movie::REGULAR
-      2
-    when Movie::CHILDRENS
-      1.5
-    when Movie::NEW_RELEASE
-      rental.days_rented * 3
+      rental.base_charge + extra_charge_for_rental(rental)
     end
   end
 
