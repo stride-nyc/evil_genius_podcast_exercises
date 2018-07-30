@@ -24,6 +24,19 @@ class Rental
     base_charge + extra_charge
   end
 
+  def points
+    case movie.price_code
+    when Movie::CHILDRENS, Movie::REGULAR
+      1
+    when Movie::NEW_RELEASE
+      if days_rented > 1
+        2
+      else
+        1
+      end
+    end
+  end
+
   private
 
   def base_charge
@@ -77,7 +90,7 @@ class Customer
 
       this_amount += rental.charge
 
-      frequent_renter_points += points_for_rental(rental)
+      frequent_renter_points += rental.points
 
       # show figures for this rental
       result += "\t" + rental.movie.title + "\t" + this_amount.to_s + "\n"
@@ -89,16 +102,4 @@ class Customer
     result
   end
 
-  def points_for_rental(rental)
-    case rental.movie.price_code
-    when Movie::CHILDRENS, Movie::REGULAR
-      1
-    when Movie::NEW_RELEASE
-      if rental.days_rented > 1
-        2
-      else
-        1
-      end
-    end
-  end
 end
